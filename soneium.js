@@ -633,8 +633,8 @@ try {
 
     // Tambahkan konstanta untuk delay
     const DELAY_RANGE = {
-        MIN: 10000, // 30 detik
-        MAX: 30000 // 120 detik
+        MIN: 30000, // 30 detik
+        MAX: 120000 // 120 detik
     };
 
     // Modifikasi fungsi customDelay
