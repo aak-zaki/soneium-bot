@@ -51,3 +51,7 @@ screen -r soneium
    ```
    npm run soneium
    ```
+7. Run NFT
+   ```
+   npm run nft
+   ```
