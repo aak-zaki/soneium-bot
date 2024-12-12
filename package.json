@@ -5,7 +5,8 @@
   "main": "soneium.js",
   "type": "module",
   "scripts": {
-    "soneium": "node soneium.js"
+    "soneium": "node soneium.js",
+    "nft": "node nft.js"
   },
   "dependencies": {
     "@inquirer/prompts": "^7.2.0",
