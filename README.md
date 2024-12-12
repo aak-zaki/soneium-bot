@@ -16,7 +16,7 @@ ALL IN ONE BOT FOR SONEIUM CHAIN, All you have to do is to configure RPC API KEY
 - Auto Bridge (Using Official Bridge)
 - Deploy Smart Contract
 - Auto [Sake Finance](https://x.com/sakefinance) (Incentive)
-- Auto Transaction Using [Sonifi V2](https://x.com/SoneFi_xyz)
+- Auto Transaction Using [Sonifi V2](https://x.com/SoneFi_xyz) (Incentive)
 
 
 ## Setup & Configure BOT
