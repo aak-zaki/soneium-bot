@@ -633,8 +633,8 @@ try {
 
     // Tambahkan konstanta untuk delay
     const DELAY_RANGE = {
-        MIN: 30000, // 30 detik
-        MAX: 120000 // 120 detik
+        MIN: 10000, // 30 detik
+        MAX: 30000 // 120 detik
     };
 
     // Modifikasi fungsi customDelay
@@ -657,8 +657,8 @@ try {
 
     // Tambahkan konstanta untuk bridge delay
     const BRIDGE_DELAY_RANGE = {
-        MIN: 30000,  // 30 detik
-        MAX: 60000   // 60 detik
+        MIN: 10000,  // 30 detik
+        MAX: 30000   // 60 detik
     };
 
     // Fungsi delay khusus untuk bridge
@@ -951,10 +951,20 @@ try {
                         continue;
                     }
                     
-                    console.log(colors.cyan + `\nProcessing ${wallets.length} wallets in parallel...` + colors.reset);
-                    await Promise.all(wallets.map(async (wallet, index) => {
-                        return processBridge(wallet, index, amount);
-                    }));
+                    console.log(colors.cyan + `\nProcessing ${wallets.length} wallets sequentially...` + colors.reset);
+                    
+                    // Proses bridge satu per satu
+                    for (let i = 0; i < wallets.length; i++) {
+                        console.log(colors.cyan + `\nProcessing wallet ${i + 1} of ${wallets.length}` + colors.reset);
+                        await processBridge(wallets[i], i, amount);
+                        
+                        // Tambahkan delay antara setiap wallet kecuali untuk wallet terakhir
+                        if (i < wallets.length - 1) {
+                            await bridgeDelay(wallets[i], 'Waiting before processing next wallet...');
+                        }
+                    }
+                    
+                    console.log(colors.green + `\nCompleted processing all wallets` + colors.reset);
                     continue;
                 }
 
@@ -983,10 +993,18 @@ try {
                             continue;
                     }
 
-                    console.log(colors.cyan + `\nProcessing ${wallets.length} wallets in parallel...` + colors.reset);
+                    console.log(colors.cyan + `\nProcessing ${wallets.length} wallets sequentially...` + colors.reset);
                     
-                    // Proses semua wallet secara paralel
-                    await Promise.all(wallets.map(wallet => processSakeFinance(wallet, actionType)));
+                    // Proses wallet satu per satu
+                    for (let i = 0; i < wallets.length; i++) {
+                        console.log(colors.cyan + `\nProcessing wallet ${i + 1} of ${wallets.length}` + colors.reset);
+                        await processSakeFinance(wallets[i], actionType);
+                        
+                        // Tambahkan delay antara setiap wallet kecuali untuk wallet terakhir
+                        if (i < wallets.length - 1) {
+                            await customDelay(wallets[i], 'Waiting before processing next wallet...');
+                        }
+                    }
                     
                     console.log(colors.green + `\nCompleted processing all wallets` + colors.reset);
                     continue;
