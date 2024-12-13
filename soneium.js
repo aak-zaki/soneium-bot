@@ -1,23 +1,23 @@
 // Tambahkan logging di awal script
 console.clear(); // Clear console
 console.log('\x1b[36m%s\x1b[0m', `
-╔═══════════════════════════════════════╗
-║        Soneium Multi-Tool v1.0        ║
-║         By: Aethereal Team            ║
-╚═══════════════════════════════════════╝
++---------------------------------------+
+¦        Soneium Multi-Tool v1.0        ¦
+¦         By: Aethereal Team            ¦
++---------------------------------------+
 `);
 
 // Debug imports
-console.log('🔄 Initializing...');
+console.log('?? Initializing...');
 
 // Tambahkan error handling global
 process.on('uncaughtException', (error) => {
-    console.error('\n❌ Uncaught Exception:', error);
+    console.error('\n? Uncaught Exception:', error);
     process.exit(1);
 });
 
 process.on('unhandledRejection', (error) => {
-    console.error('\n❌ Unhandled Promise Rejection:', error);
+    console.error('\n? Unhandled Promise Rejection:', error);
     process.exit(1);
 });
 
@@ -25,12 +25,12 @@ process.on('unhandledRejection', (error) => {
 let privateKey, Helper, ethers, input, logger, Config;
 
 try {
-    console.log('📚 Loading modules...');
+    console.log('?? Loading modules...');
     
     try {
         const accounts = await import("./accounts/accounts.js");
         privateKey = accounts.privateKey;
-        console.log('✅ Accounts loaded');
+        console.log('? Accounts loaded');
     } catch (e) {
         throw new Error(`Failed to load accounts: ${e.message}`);
     }
@@ -38,28 +38,28 @@ try {
     try {
         const helperModule = await import("./src/utils/helper.js");
         Helper = helperModule.Helper;
-        console.log('✅ Helper loaded');
+        console.log('? Helper loaded');
     } catch (e) {
         throw new Error(`Failed to load helper: ${e.message}`);
     }
     
     try {
         ethers = await import("ethers");
-        console.log('✅ Ethers loaded');
+        console.log('? Ethers loaded');
     } catch (e) {
         throw new Error(`Failed to load ethers: ${e.message}`);
     }
     
     try {
         input = await import("input");
-        console.log('✅ Input module loaded');
+        console.log('? Input module loaded');
     } catch (e) {
         throw new Error(`Failed to load input: ${e.message}`);
     }
     
     try {
         logger = await import("./src/utils/logger.js");
-        console.log('✅ Logger loaded');
+        console.log('? Logger loaded');
     } catch (e) {
         throw new Error(`Failed to load logger: ${e.message}`);
     }
@@ -67,12 +67,12 @@ try {
     try {
         const configModule = await import("./config/config.js");
         Config = configModule.Config;
-        console.log('✅ Config loaded');
+        console.log('? Config loaded');
     } catch (e) {
         throw new Error(`Failed to load config: ${e.message}`);
     }
 
-    console.log('\n🚀 All modules loaded successfully!\n');
+    console.log('\n?? All modules loaded successfully!\n');
     
     // Validasi modules
     if (!privateKey) throw new Error('privateKey is undefined after import');
@@ -83,10 +83,10 @@ try {
     if (!Config) throw new Error('Config is undefined after import');
 
     // Lanjutkan dengan kode utama...
-    console.log('🎯 Starting main program...\n');
+    console.log('?? Starting main program...\n');
     
 } catch (error) {
-    console.error('\n❌ Error during initialization:', error.message);
+    console.error('\n? Error during initialization:', error.message);
     console.error('Stack trace:', error.stack);
     process.exit(1);
 }
@@ -118,7 +118,7 @@ try {
     SONE_ADDRESS = "0xA5D6513082EF1F157A33A066293309E74A8aF6Df";
     SOE_ADDRESS = "0x5bD7A9D2328EFF28ba3261dD81CB3f4e4FDF221e";
 
-    console.log('✅ Using default DEX configuration');
+    console.log('? Using default DEX configuration');
 
     POOL_CONFIG = {
         L2POOL: Config.LENDING?.L2POOL || {},
@@ -127,7 +127,7 @@ try {
 
     FAUCET_CONFIG = Config.FAUCET || {};
 
-    console.log('✅ Pool and Faucet configuration loaded');
+    console.log('? Pool and Faucet configuration loaded');
 
     // Tambahkan setelah deklarasi POOL_CONFIG dan FAUCET_CONFIG
     const colors = {
@@ -263,7 +263,7 @@ try {
                             tx.to?.toLowerCase() === NETWORKS.SONEIUM.MESSENGER_CONTRACT.toLowerCase()
                         );
 
-                        console.log(formatLog(wallet, `\n✅ Bridge completed successfully!`, 'success'));
+                        console.log(formatLog(wallet, `\n? Bridge completed successfully!`, 'success'));
                         console.log(formatLog(wallet, `Received ${ethers.formatEther(currentBalance - initialBalance)} ETH on Soneium`, 'success'));
                         if (bridgeTx) {
                             console.log(formatLog(wallet, `Soneium Transaction Hash: ${NETWORKS.SONEIUM.EXPLORER}${bridgeTx.hash}`, 'info'));
@@ -363,7 +363,7 @@ try {
                     
                     const receipt = await transaction.wait();
                     if (receipt.status === 1) {
-                        console.log(formatLog(wallet, `✅ Successfully claimed ${tokenConfig.SYMBOL} faucet!`, 'success'));
+                        console.log(formatLog(wallet, `? Successfully claimed ${tokenConfig.SYMBOL} faucet!`, 'success'));
                         return true;
                     }
                     return false;
@@ -373,7 +373,7 @@ try {
                 if (error.message.includes("execution reverted") || 
                     error.message.includes("cooldown") || 
                     error.message.toLowerCase().includes("already claimed")) {
-                    console.log(formatLog(wallet, `⚠️ Skipping ${tokenConfig?.SYMBOL || tokenType} faucet: Still in cooldown period`, 'warning'));
+                    console.log(formatLog(wallet, `?? Skipping ${tokenConfig?.SYMBOL || tokenType} faucet: Still in cooldown period`, 'warning'));
                     return false;
                 }
                 console.error(formatLog(wallet, `Error claiming ${tokenConfig?.SYMBOL || tokenType} faucet: ${error.message}`, 'error'));
@@ -410,10 +410,10 @@ try {
             
             console.log(formatLog(wallet, `Transaction Hash: ${NETWORKS.SONEIUM.EXPLORER}${tx.hash}`, 'wait'));
             await tx.wait();
-            console.log(formatLog(wallet, `✅ Token approved successfully!`, 'success'));
+            console.log(formatLog(wallet, `? Token approved successfully!`, 'success'));
             return true;
         } catch (error) {
-            console.error(formatLog(wallet, `❌ Error approving token: ${error.message}`, 'error'));
+            console.error(formatLog(wallet, `? Error approving token: ${error.message}`, 'error'));
             return false;
         }
     }
@@ -572,10 +572,10 @@ try {
 
             console.log(formatLog(wallet, `Transaction Hash: ${NETWORKS.SONEIUM.EXPLORER}${transaction.hash}`, 'wait'));
             await transaction.wait();
-            console.log(formatLog(wallet, `✅ Swap ETH to ${tokenSymbol} successful!`, 'success'));
+            console.log(formatLog(wallet, `? Swap ETH to ${tokenSymbol} successful!`, 'success'));
             return true;
         } catch (error) {
-            console.error(formatLog(wallet, `❌ Error swapping ETH to token: ${error.message}`, 'error'));
+            console.error(formatLog(wallet, `? Error swapping ETH to token: ${error.message}`, 'error'));
             return false;
         }
     }
@@ -623,18 +623,18 @@ try {
 
             console.log(formatLog(wallet, `Transaction Hash: ${NETWORKS.SONEIUM.EXPLORER}${transaction.hash}`, 'wait'));
             await transaction.wait();
-            console.log(formatLog(wallet, `✅ Swap ${tokenSymbol} to ETH successful!`, 'success'));
+            console.log(formatLog(wallet, `? Swap ${tokenSymbol} to ETH successful!`, 'success'));
             return true;
         } catch (error) {
-            console.error(formatLog(wallet, `❌ Error swapping tokens to ETH: ${error.message}`, 'error'));
+            console.error(formatLog(wallet, `? Error swapping tokens to ETH: ${error.message}`, 'error'));
             return false;
         }
     }
 
     // Tambahkan konstanta untuk delay
     const DELAY_RANGE = {
-        MIN: 10000, // 30 detik
-        MAX: 30000 // 120 detik
+        MIN: 5000, // 30 detik
+        MAX: 12000 // 120 detik
     };
 
     // Modifikasi fungsi customDelay
@@ -657,8 +657,8 @@ try {
 
     // Tambahkan konstanta untuk bridge delay
     const BRIDGE_DELAY_RANGE = {
-        MIN: 10000,  // 30 detik
-        MAX: 30000   // 60 detik
+        MIN: 5000,  // 30 detik
+        MAX: 12000   // 60 detik
     };
 
     // Fungsi delay khusus untuk bridge
@@ -672,7 +672,7 @@ try {
     async function processWallet(wallet, action, index) {
         try {
             if (action === "swap") {
-                console.log(formatLog(wallet, `\n🚀 Starting swap bot for Wallet ${index + 1}: ${wallet.address}`, 'info'));
+                console.log(formatLog(wallet, `\n?? Starting swap bot for Wallet ${index + 1}: ${wallet.address}`, 'info'));
 
                 // Tambahkan delay awal
                 await customDelay(wallet, 'Waiting before starting swap process...');
@@ -719,7 +719,7 @@ try {
 
                         console.log(formatLog(wallet, "\nPlanned transactions for this cycle:", 'info'));
                         transactions.forEach((tx, index) => {
-                            console.log(formatLog(wallet, `${index + 1}. ${tx.from} → ${tx.to}`, 'info'));
+                            console.log(formatLog(wallet, `${index + 1}. ${tx.from} ? ${tx.to}`, 'info'));
                         });
 
                         // Execute each transaction
@@ -804,10 +804,10 @@ try {
                     }
                 }
             } else if (action === "deploy") {
-                console.log(formatLog(wallet, `\n🚀 Starting deploy for Wallet ${index + 1}: ${wallet.address}`, 'info'));
+                console.log(formatLog(wallet, `\n?? Starting deploy for Wallet ${index + 1}: ${wallet.address}`, 'info'));
                 // Implementasi logika deploy
             } else if (action === "balance") {
-                console.log(formatLog(wallet, `\n🔍 Checking balance for Wallet ${index + 1}: ${wallet.address}`, 'info'));
+                console.log(formatLog(wallet, `\n?? Checking balance for Wallet ${index + 1}: ${wallet.address}`, 'info'));
                 // Implementasi logika balance
             }
             // Tambahkan else if untuk aksi lain jika diperlukan
@@ -819,7 +819,7 @@ try {
 
     async function processBridge(wallet, index, amount) {
         try {
-            console.log(formatLog(wallet, `\n🚀 Starting bridge for Wallet ${index + 1}: ${wallet.address}`, 'info'));
+            console.log(formatLog(wallet, `\n?? Starting bridge for Wallet ${index + 1}: ${wallet.address}`, 'info'));
             
             // Setup Sepolia provider
             const sepoliaProvider = new ethers.JsonRpcProvider(
@@ -842,7 +842,7 @@ try {
         try {
             await customDelay(wallet, 'Waiting before starting Sake Finance action...');
             
-            console.log(formatLog(wallet, `\n🚀 Starting Sake Finance ${action}...`, 'info'));
+            console.log(formatLog(wallet, `\n?? Starting Sake Finance ${action}...`, 'info'));
             
             switch(action) {
                 case "claim":
@@ -935,19 +935,19 @@ try {
                 const choice = await input.text("\nSelect option (1-5): ");
 
                 if (choice === "5") { 
-                    console.log(colors.green + "\n✅ Exiting..." + colors.reset);
+                    console.log(colors.green + "\n? Exiting..." + colors.reset);
                     return;
                 }
 
                 if (!["1", "2", "3", "4"].includes(choice)) {
-                    console.log(colors.red + "\n❌ Invalid option!" + colors.reset);
+                    console.log(colors.red + "\n? Invalid option!" + colors.reset);
                     continue;
                 }
 
                 if (choice === "1") {
                     const amount = await input.text("Enter amount to bridge (ETH): ");
                     if (isNaN(amount) || parseFloat(amount) <= 0) {
-                        console.log(colors.red + "\n❌ Invalid amount!" + colors.reset);
+                        console.log(colors.red + "\n? Invalid amount!" + colors.reset);
                         continue;
                     }
                     
@@ -975,11 +975,12 @@ try {
                     console.log(colors.yellow + "3. Borrow All Tokens" + colors.reset);
                     console.log(colors.yellow + "4. Repay All Tokens" + colors.reset);
                     console.log(colors.yellow + "5. Withdraw All Tokens" + colors.reset);
-                    console.log(colors.yellow + "6. Back to Main Menu" + colors.reset);
+                    console.log(colors.yellow + "6. Run All Tasks" + colors.reset);
+                    console.log(colors.yellow + "7. Back to Main Menu" + colors.reset);
 
-                    const sakeChoice = await input.text("\nEnter action (1-6): ");
+                    const sakeChoice = await input.text("\nEnter action (1-7): ");
                     
-                    if (sakeChoice === "6") continue;
+                    if (sakeChoice === "7") continue;
 
                     let actionType;
                     switch(sakeChoice) {
@@ -988,26 +989,48 @@ try {
                         case "3": actionType = "borrow"; break;
                         case "4": actionType = "repay"; break;
                         case "5": actionType = "withdraw"; break;
+                        case "6": 
+                            console.log(colors.cyan + `\nRunning all tasks sequentially...` + colors.reset);
+                            
+                            // Proses wallet satu per satu
+                            for (let i = 0; i < wallets.length; i++) {
+                                const wallet = wallets[i];
+                                console.log(colors.cyan + `\nProcessing wallet ${i + 1} of ${wallets.length}` + colors.reset);
+                                
+                                // Jalankan semua task secara berurutan
+                                console.log(formatLog(wallet, "Starting Faucet Claims...", 'info'));
+                                await processSakeFinance(wallet, "claim");
+                                await customDelay(wallet, 'Waiting before supply...');
+                                
+                                console.log(formatLog(wallet, "Starting Supply...", 'info'));
+                                await processSakeFinance(wallet, "supply");
+                                await customDelay(wallet, 'Waiting before borrow...');
+                                
+                                console.log(formatLog(wallet, "Starting Borrow...", 'info'));
+                                await processSakeFinance(wallet, "borrow");
+                                await customDelay(wallet, 'Waiting before repay...');
+                                
+                                console.log(formatLog(wallet, "Starting Repay...", 'info'));
+                                await processSakeFinance(wallet, "repay");
+                                await customDelay(wallet, 'Waiting before withdraw...');
+                                
+                                console.log(formatLog(wallet, "Starting Withdraw...", 'info'));
+                                await processSakeFinance(wallet, "withdraw");
+                                
+                                // Delay antara wallet
+                                if (i < wallets.length - 1) {
+                                    await customDelay(wallet, 'Waiting before processing next wallet...');
+                                }
+                            }
+                            
+                            console.log(colors.green + `\nAll tasks completed for all wallets!` + colors.reset);
+                            continue;
                         default:
-                            console.log(colors.red + "\n❌ Invalid action!" + colors.reset);
+                            console.log(colors.red + "\n? Invalid action!" + colors.reset);
                             continue;
                     }
 
-                    console.log(colors.cyan + `\nProcessing ${wallets.length} wallets sequentially...` + colors.reset);
-                    
-                    // Proses wallet satu per satu
-                    for (let i = 0; i < wallets.length; i++) {
-                        console.log(colors.cyan + `\nProcessing wallet ${i + 1} of ${wallets.length}` + colors.reset);
-                        await processSakeFinance(wallets[i], actionType);
-                        
-                        // Tambahkan delay antara setiap wallet kecuali untuk wallet terakhir
-                        if (i < wallets.length - 1) {
-                            await customDelay(wallets[i], 'Waiting before processing next wallet...');
-                        }
-                    }
-                    
-                    console.log(colors.green + `\nCompleted processing all wallets` + colors.reset);
-                    continue;
+                    // ... rest of the existing code ...
                 }
 
                 // Handle menu utama lainnya
@@ -1065,10 +1088,10 @@ try {
                         action = "balance";
                         break;
                     case "6": 
-                        console.log(colors.green + "\n✅ Exiting..." + colors.reset);
+                        console.log(colors.green + "\n? Exiting..." + colors.reset);
                         return;
                     default:
-                        console.log(colors.red + "\n❌ Invalid option!" + colors.reset);
+                        console.log(colors.red + "\n? Invalid option!" + colors.reset);
                         continue;
                 }
 
@@ -1087,7 +1110,7 @@ try {
     main();
     
 } catch (error) {
-    console.error('\n❌ Error during configuration:', error.message);
+    console.error('\n? Error during configuration:', error.message);
     console.error('Stack trace:', error.stack);
     process.exit(1);
 }
