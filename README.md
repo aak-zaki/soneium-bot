@@ -33,7 +33,8 @@ screen -r soneium
 ### Linux
 1. Clone project repo
    ```
-   git clone https://github.com/Aethereal-Collective/soneium-bot.git && cd soneium-bot
+   git clone https://github.com/Aethereal-Collective/soneium-bot.git
+   cd soneium-bot
    ```
 2. Run
    ```
